@@ -8,5 +8,12 @@ export const routing = defineRouting({
     '/pathnames': {
       de: '/pfadnamen'
     }
-  }
+  },
+  domains: [
+    {
+      domain: 'store.qpart.com.ua',
+      defaultLocale: 'en',
+      locales: ['de', 'en']
+    }
+  ]
 });
