@@ -2,24 +2,23 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Это минимальный middleware, который ничего не делает — просто пропускает запрос
-export function middleware(request: NextRequest) {
+export function middleware(req: NextRequest) {
   // Можно залогировать, чтобы убедиться, что middleware сработал
-
-  const { pathname } = request.nextUrl;
+  const { pathname } = req.nextUrl;
 
   const pathnameIsMissingLocale = !/^\/(en|ru|uk)(\/|$)/.test(pathname);
 
   if (pathnameIsMissingLocale) {
-    const acceptLang = request.headers.get("accept-language");
+    const acceptLang = req.headers.get("accept-language");
     const browserLang = acceptLang?.split(",")[0].split("-")[0] || "en";
     const redirectLocale = ["en", "ru", "uk"].includes(browserLang)
       ? browserLang
       : "en";
 
-    // ❗ Меняем только pathname, без хоста
-    return NextResponse.redirect(
-      new URL(`/${redirectLocale}${pathname}`, request.url)
-    );
+    // 🔥 абсолютный путь, но без подмены origin
+    const relativeRedirect = `/${redirectLocale}${pathname}`;
+
+    return NextResponse.redirect(new URL(relativeRedirect, req.nextUrl.origin));
   }
 
   return NextResponse.next();
