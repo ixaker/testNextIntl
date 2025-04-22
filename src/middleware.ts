@@ -5,6 +5,21 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   // Можно залогировать, чтобы убедиться, что middleware сработал
 
+  const pathname = request.nextUrl.pathname;
+
+  const pathnameIsMissingLocale = !/^\/(en|ru|uk)(\/|$)/.test(pathname);
+
+  if (pathnameIsMissingLocale) {
+    const locale =
+      request.headers.get("accept-language")?.split(",")[0].split("-")[0] ||
+      "en";
+    const redirectLocale = ["en", "ru", "uk"].includes(locale) ? locale : "en";
+
+    const url = request.nextUrl.clone();
+    url.pathname = `/${redirectLocale}${pathname}`;
+    return NextResponse.redirect(url);
+  }
+
   console.log("req.headers", request.headers);
 
   console.log(
