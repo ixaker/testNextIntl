@@ -11,24 +11,39 @@
 // };
 
 import createMiddleware from 'next-intl/middleware';
+import {NextRequest, NextResponse} from 'next/server';
 
-export default createMiddleware({
-  locales: ['ua', 'de', 'en'],
-  defaultLocale: 'ua',
-  domains: [
-    {
-      domain: 'store.qpart.com.ua',
-      defaultLocale: 'ua',
-      locales: ['ua']
-    },
-    {
-      domain: 'de.store.qpart.com.ua',
-      defaultLocale: 'de',
-      locales: ['de']
-    }
-    // ...
-  ]
-});
+export default async function middleware(request: NextRequest) {
+  const handleI18nRouting = createMiddleware({
+    locales: ['en', 'de'],
+    defaultLocale: 'de',
+    domains: [
+      {
+        domain: 'store.qpart.com.ua',
+        defaultLocale: 'en',
+        locales: ['de', 'en']
+      }
+    ],
+    localePrefix: 'always'
+  });
+
+  const response = handleI18nRouting(request);
+
+  const redirectDomain = 'store.qpart.com.ua';
+
+  if (request.headers.get('host')?.includes('localhost')) {
+    const urlObj = request.nextUrl.clone();
+
+    urlObj.protocol =
+      request.headers.get('x-forwarded-proto') ?? request.nextUrl.protocol;
+    urlObj.port = '';
+    urlObj.host = redirectDomain;
+
+    return NextResponse.redirect(urlObj.toString());
+  }
+
+  return response;
+}
 
 export const config = {
   matcher: ['/((?!_next).*)']
