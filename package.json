@@ -1,44 +1,38 @@
 {
-  "name": "example-app-router",
-  "private": true,
+  "name": "next-app-dir-i18next-example-ts",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
-    "dev": "next dev --turbo",
-    "lint": "eslint src && tsc && prettier src --check",
-    "test": "pnpm run test:playwright && pnpm run test:jest",
-    "test:playwright": "playwright test",
-    "test:jest": "jest",
     "build": "next build",
-    "start": "next start --port=3000 --hostname=127.1.4.56"
+    "dev": "next dev",
+    "dev-turbo": "next dev --turbo",
+    "lint": "next lint",
+    "start": "next start --port=3000 --hostname=127.1.4.56",
+    "migrateToLocize": "locize migrate --project-id=01b2e5e8-6243-47d1-b36f-963dbb8bcae3 --api-key=c9805cd1-fd50-4d98-967a-383b39066de8 --path=./app/i18n/locales",
+    "downloadLocales": "locize download --project-id=01b2e5e8-6243-47d1-b36f-963dbb8bcae3 --ver=latest --clean=true --path=./app/i18n/locales && npm run i18next-resources-for-ts",
+    "syncLocales": "locize sync --project-id=01b2e5e8-6243-47d1-b36f-963dbb8bcae3 --api-key=bd8cb856-d6b3-4c82-a456-862c729a1674 --ver=latest --path=./app/i18n/locales --dry=true",
+    "i18next-resources-for-ts": "i18next-resources-for-ts interface -i ./app/i18n/locales/en -o ./@types/resources.d.ts"
   },
   "dependencies": {
-    "clsx": "^2.1.1",
-    "next": "^15.2.2",
-    "next-intl": "^4.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwindcss": "^3.4.4"
+    "accept-language": "3.0.20",
+    "i18next": "24.2.3",
+    "i18next-browser-languagedetector": "8.0.4",
+    "i18next-resources-to-backend": "1.2.1",
+    "next": "15.2.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-i18next": "15.4.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
-    "@jest/globals": "^29.7.0",
-    "@playwright/test": "^1.51.0",
-    "@testing-library/react": "^16.2.0",
-    "@types/jest": "^29.5.12",
-    "@types/lodash": "^4.17.5",
-    "@types/node": "^20.14.5",
-    "@types/react": "^19.0.0",
-    "autoprefixer": "^10.4.19",
-    "eslint": "9.11.1",
-    "eslint-config-next": "^15.2.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "postcss": "^8.5.3",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.3"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "trailingComma": "none"
+    "@babel/eslint-parser": "7.27.0",
+    "@types/node": "22.14.0",
+    "@types/react": "19.1.0",
+    "@typescript-eslint/eslint-plugin": "8.29.0",
+    "@typescript-eslint/parser": "8.29.0",
+    "eslint": "9.24.0",
+    "eslint-config-next": "15.2.4",
+    "i18next-resources-for-ts": "1.5.0",
+    "locize-cli": "9.0.1",
+    "typescript": "5.8.2"
   }
 }
