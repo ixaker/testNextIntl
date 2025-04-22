@@ -15,10 +15,8 @@ export function middleware(req: NextRequest) {
       ? browserLang
       : "en";
 
-    // 🔥 абсолютный путь, но без подмены origin
-    const relativeRedirect = `/${redirectLocale}${pathname}`;
-
-    return NextResponse.redirect(new URL(relativeRedirect, req.nextUrl.origin));
+    const redirectPath = `/${redirectLocale}${pathname}`;
+    return NextResponse.redirect(redirectPath);
   }
 
   return NextResponse.next();
