@@ -4,16 +4,16 @@ const nextConfig = {
     locales: ["li"],
     defaultLocale: "li",
     localeDetection: true,
-    domains: [
-      {
-        domain: "store.qpart.com.ua",
-        defaultLocale: "uk",
-      },
-      {
-        domain: "store.qpart.com.ua",
-        defaultLocale: "en",
-      },
-    ],
+    // domains: [
+    //   {
+    //     domain: "store.qpart.com.ua",
+    //     defaultLocale: "uk",
+    //   },
+    //   {
+    //     domain: "store.qpart.com.ua",
+    //     defaultLocale: "en",
+    //   },
+    // ],
   },
 };
 
