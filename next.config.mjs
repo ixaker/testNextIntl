@@ -10,6 +10,10 @@ const nextConfig = {
         source: "/:path*",
         headers: [
           {
+            key: "X-Accel-Buffering",
+            value: "no",
+          },
+          {
             key: "X-Forwarded-Host",
             value: process.env.NEXT_PUBLIC_URL,
           },
@@ -24,7 +28,7 @@ const nextConfig = {
     ];
   },
 
-  domains: ["store.qpart.com.ua"],
+  //   domains: ["store.qpart.com.ua"],
 };
 
 export default nextConfig;
