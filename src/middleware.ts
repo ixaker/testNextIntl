@@ -2,7 +2,8 @@ import { NextResponse, NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "test";
+  const env = process.env;
+  const baseUrl = process.env.NEXT_PUBLIC_URL;
 
   const nextUrl = request.nextUrl;
   const headers = request.headers;
@@ -23,5 +24,6 @@ export function middleware(request: NextRequest) {
     dataHeader,
     dataNext,
     baseUrl: baseUrl,
+    env: env,
   });
 }
