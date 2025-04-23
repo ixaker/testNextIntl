@@ -2,6 +2,8 @@ import { NextResponse, NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "test";
+
   const nextUrl = request.nextUrl;
   const headers = request.headers;
 
@@ -17,5 +19,9 @@ export function middleware(request: NextRequest) {
     origin: headers.get("x-forwarded-host"),
   };
 
-  return NextResponse.json({ dataHeader: dataHeader, dataNext: dataNext });
+  return NextResponse.json({
+    dataHeader,
+    dataNext,
+    baseUrl: baseUrl,
+  });
 }
