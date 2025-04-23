@@ -7,9 +7,9 @@ const nextConfig = {
   async headers() {
     return [
       {
-        env: {
-          BASE_URL: "https://store.qpart.com.ua",
-        },
+        // env: {
+        //   BASE_URL: this.env.process.BASE_URL,
+        // },
         source: "/:path*",
         headers: [
           {
