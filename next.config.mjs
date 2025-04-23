@@ -7,6 +7,9 @@ const nextConfig = {
   async headers() {
     return [
       {
+        env: {
+          BASE_URL: "https://store.qpart.com.ua",
+        },
         source: "/:path*",
         headers: [
           {
@@ -27,8 +30,6 @@ const nextConfig = {
       },
     ];
   },
-
-  //   domains: ["store.qpart.com.ua"],
 };
 
 export default nextConfig;
