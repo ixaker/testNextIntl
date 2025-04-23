@@ -1,41 +1,33 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-const SUPPORTED_LOCALES = ["en", "ru", "uk"];
-const DEFAULT_LOCALE = "en";
-// Это минимальный middleware, который ничего не делает — просто пропускает запрос
-export function middleware(req: NextRequest) {
-  console.log("Поавли в middleware");
+// This function can be marked `async` if using `await` inside
+export function middleware(request: NextRequest) {
+  const nextUrl = request.nextUrl;
+  //   console.log("nextUrl", nextUrl);
 
-  // Можно залогировать, чтобы убедиться, что middleware сработал
-  const { pathname } = req.nextUrl;
+  const data = {
+    href: nextUrl.href,
+    origin: nextUrl.origin,
+    host: nextUrl.host,
+    hostname: nextUrl.hostname,
+  };
 
-  console.log("pathname", pathname, req.nextUrl);
+  const stringifyNextUrl = JSON.stringify(data);
 
-  const pathnameIsMissingLocale = !/^\/(en|ru|uk)(\/|$)/.test(pathname);
+  console.log("stringifyNextUrl", stringifyNextUrl);
 
-  if (pathnameIsMissingLocale) {
-    const acceptLang = req.headers.get("accept-language");
-    const browserLang =
-      acceptLang?.split(",")[0].split("-")[0] || DEFAULT_LOCALE;
-    const locale = SUPPORTED_LOCALES.includes(browserLang)
-      ? browserLang
-      : DEFAULT_LOCALE;
+  console.log("-------------------------------------");
 
-    const redirectPath = `/${locale}${pathname}`;
+  const response = NextResponse.next();
 
-    // 👉 принудительно укажем нужный origin вручную (вручную подставляем домен)
-    const fullUrl = new URL(redirectPath, `https://store.qpart.com.ua`);
+  response.cookies.set("next-url-data-test", stringifyNextUrl, {
+    path: "/",
+    sameSite: "strict",
+  });
 
-    return NextResponse.redirect(fullUrl);
-  }
-  console.log("next");
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: "/",
+  //   matcher: "/about/:path*",
 };
